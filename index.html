@@ -35,6 +35,17 @@
     padding: 10px;
     border-radius: 4px;
   }
+  .accent-box {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid #DDD;
+  }
+  .accent-box h2 {
+    margin-top: 0;
+    font-size: 20px;
+  }
   .accent-colors {
     margin-top: 10px;
     display: flex;
@@ -61,7 +72,7 @@
 <div id="result"></div>
 
 <script>
-  // Predefined accessible colors based on previous list
+  // Predefined accessible colors
   const accessibleColors = {
     "white": "#FFFFFF",
     "black": "#000000",
@@ -78,8 +89,7 @@
     "muted light background": "#EDF2F7"
   };
 
-  // Recommendations for two accessible accent colors. 
-  // This is a simple, static mapping. Adjust as needed.
+  // Recommendations for two accessible accent colors
   const accentRecommendations = {
     "white": ["navy", "green"],
     "black": ["orange", "blue"],
@@ -112,6 +122,10 @@
       // Display recommended accent colors
       if (accentRecommendations[userInput]) {
         const accents = accentRecommendations[userInput];
+        const accentBox = document.createElement('div');
+        accentBox.className = 'accent-box';
+        accentBox.innerHTML = '<h2>Complimentary Accent Colors</h2>';
+
         const accentContainer = document.createElement('div');
         accentContainer.className = 'accent-colors';
 
@@ -124,7 +138,8 @@
           accentContainer.appendChild(accentDiv);
         });
 
-        resultDiv.appendChild(accentContainer);
+        accentBox.appendChild(accentContainer);
+        resultDiv.appendChild(accentBox);
       }
 
     } else {
