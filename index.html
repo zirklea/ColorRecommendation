@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Accessible Color Selector</title>
+<style>
+  body {
+    font-family: sans-serif;
+    background: #FAFAFA;
+    padding: 20px;
+  }
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  input[type="text"] {
+    padding: 8px;
+    font-size: 16px;
+    width: 300px;
+    margin-bottom: 12px;
+  }
+  button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #007ACC;
+    border: none;
+    color: #FFFFFF;
+  }
+  #result {
+    margin-top: 20px;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Accessible Color Finder</h1>
+<p>Type in a color name and see a recommended accessible hex code:</p>
+
+<label for="userColor">Enter a color name (e.g. "blue", "green", "red", "white"):</label>
+<input type="text" id="userColor" placeholder="e.g. blue">
+<button id="getColor">Get Accessible Color</button>
+
+<div id="result"></div>
+
+<script>
+  // Predefined accessible colors based on previous list
+  const accessibleColors = {
+    "white": "#FFFFFF",
+    "black": "#000000",
+    "dark gray": "#333333",
+    "light gray": "#F0F0F0",
+    "off-white": "#FAFAFA",
+    "blue": "#007ACC",
+    "navy": "#002B5C",
+    "green": "#00875A",
+    "red": "#E63946",
+    "orange": "#FFB703",
+    "purple": "#8C1AFF",
+    "dark background": "#2C3E50",
+    "muted light background": "#EDF2F7"
+  };
+
+  document.getElementById('getColor').addEventListener('click', function() {
+    const userInput = document.getElementById('userColor').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('result');
+
+    if (accessibleColors[userInput]) {
+      const hexCode = accessibleColors[userInput];
+      resultDiv.textContent = `Accessible color for "${userInput}": ${hexCode}`;
+      resultDiv.style.backgroundColor = hexCode;
+      // Ensure text is readable; switch to black or white depending on background
+      resultDiv.style.color = (getLuminance(hexCode) > 0.5) ? '#000000' : '#FFFFFF';
+    } else {
+      resultDiv.textContent = `No accessible color found for "${userInput}". Please try another color.`;
+      resultDiv.style.backgroundColor = '';
+      resultDiv.style.color = '#000000';
+    }
+  });
+
+  // Function to determine luminance of a hex color to choose text color for contrast
+  function getLuminance(hex) {
+    // Strip # if present
+    hex = hex.replace('#','');
+    // Parse r, g, b
+    const r = parseInt(hex.substring(0,2),16) / 255;
+    const g = parseInt(hex.substring(2,4),16) / 255;
+    const b = parseInt(hex.substring(4,6),16) / 255;
+
+    // Apply gamma correction
+    const R = (r <= 0.03928) ? r/12.92 : Math.pow((r+0.055)/1.055,2.4);
+    const G = (g <= 0.03928) ? g/12.92 : Math.pow((g+0.055)/1.055,2.4);
+    const B = (b <= 0.03928) ? b/12.92 : Math.pow((b+0.055)/1.055,2.4);
+    return 0.2126 * R + 0.7152 * G + 0.0722 * B;
+  }
+</script>
+
+</body>
+</html>
