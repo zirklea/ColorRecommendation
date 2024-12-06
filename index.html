@@ -9,21 +9,44 @@
     font-family: sans-serif;
     background: #F0F0F0; /* Light gray background */
     color: #002B5C; /* Dark blue text */
-    padding: 20px;
+    padding: 0;
     margin: 0;
   }
-  
-  h1, h2 {
+
+  /* Header styling */
+  header {
+    background: url('https://picsum.photos/1600/400?blur=2') no-repeat center center; 
+    background-size: cover;
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 3em;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  }
+
+  .content {
+    padding: 20px;
+  }
+
+  h2 {
     color: #002B5C;
     margin-top: 0;
   }
-  
+
   label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
   }
-  
+
   input[type="text"] {
     padding: 8px;
     font-size: 16px;
@@ -32,7 +55,7 @@
     border: 1px solid #DDD;
     border-radius: 4px;
   }
-  
+
   button {
     padding: 8px 16px;
     font-size: 16px;
@@ -42,7 +65,7 @@
     border-radius: 4px;
     color: #FFFFFF;
   }
-  
+
   #result {
     margin-top: 20px;
     font-size: 18px;
@@ -51,7 +74,7 @@
     border: 1px solid #DDD;
     background: #FFFFFF;
   }
-  
+
   .accent-box {
     margin-top: 20px;
     padding: 10px;
@@ -59,19 +82,19 @@
     background: #FFFFFF;
     border: 1px solid #DDD;
   }
-  
+
   .accent-box h2 {
     margin-top: 0;
     font-size: 20px;
     color: #002B5C;
   }
-  
+
   .accent-colors {
     margin-top: 10px;
     display: flex;
     gap: 10px;
   }
-  
+
   .accent-colors div {
     padding: 10px;
     color: #FFFFFF;
@@ -80,7 +103,7 @@
     text-align: center;
     font-weight: bold;
   }
-  
+
   p {
     max-width: 500px;
     line-height: 1.5;
@@ -89,14 +112,19 @@
 </head>
 <body>
 
-<h1>Accessible Color Finder</h1>
-<p>Type in a color name below, and this tool will provide you with a recommended accessible hex code and two complimentary accent colors. All colors and recommendations are chosen to support better accessibility and contrast.</p>
+<header>
+  <h1>Accessible Color Finder</h1>
+</header>
 
-<label for="userColor">Enter a color name (e.g. "blue", "green", "red", "white"):</label>
-<input type="text" id="userColor" placeholder="e.g. blue">
-<button id="getColor">Get Accessible Color</button>
+<div class="content">
+  <p>Type in a color name below, and this tool will provide you with a recommended accessible hex code and two complimentary accent colors. All colors and recommendations are chosen to support better accessibility and contrast.</p>
 
-<div id="result"></div>
+  <label for="userColor">Enter a color name (e.g. "blue", "green", "red", "white"):</label>
+  <input type="text" id="userColor" placeholder="e.g. blue">
+  <button id="getColor">Get Accessible Color</button>
+
+  <div id="result"></div>
+</div>
 
 <script>
   // Predefined accessible colors
