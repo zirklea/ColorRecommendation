@@ -7,34 +7,51 @@
 <style>
   body {
     font-family: sans-serif;
-    background: #FAFAFA;
+    background: #F0F0F0; /* Light gray background */
+    color: #002B5C; /* Dark blue text */
     padding: 20px;
+    margin: 0;
   }
+  
+  h1, h2 {
+    color: #002B5C;
+    margin-top: 0;
+  }
+  
   label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
   }
+  
   input[type="text"] {
     padding: 8px;
     font-size: 16px;
     width: 300px;
     margin-bottom: 12px;
+    border: 1px solid #DDD;
+    border-radius: 4px;
   }
+  
   button {
     padding: 8px 16px;
     font-size: 16px;
     cursor: pointer;
     background: #007ACC;
     border: none;
+    border-radius: 4px;
     color: #FFFFFF;
   }
+  
   #result {
     margin-top: 20px;
     font-size: 18px;
     padding: 10px;
     border-radius: 4px;
+    border: 1px solid #DDD;
+    background: #FFFFFF;
   }
+  
   .accent-box {
     margin-top: 20px;
     padding: 10px;
@@ -42,28 +59,38 @@
     background: #FFFFFF;
     border: 1px solid #DDD;
   }
+  
   .accent-box h2 {
     margin-top: 0;
     font-size: 20px;
+    color: #002B5C;
   }
+  
   .accent-colors {
     margin-top: 10px;
     display: flex;
     gap: 10px;
   }
+  
   .accent-colors div {
     padding: 10px;
     color: #FFFFFF;
     border-radius: 4px;
     flex: 1;
     text-align: center;
+    font-weight: bold;
+  }
+  
+  p {
+    max-width: 500px;
+    line-height: 1.5;
   }
 </style>
 </head>
 <body>
 
 <h1>Accessible Color Finder</h1>
-<p>Type in a color name and see a recommended accessible hex code and two complimentary accent colors:</p>
+<p>Type in a color name below, and this tool will provide you with a recommended accessible hex code and two complimentary accent colors. All colors and recommendations are chosen to support better accessibility and contrast.</p>
 
 <label for="userColor">Enter a color name (e.g. "blue", "green", "red", "white"):</label>
 <input type="text" id="userColor" placeholder="e.g. blue">
@@ -113,7 +140,7 @@
     if (accessibleColors[userInput]) {
       const hexCode = accessibleColors[userInput];
       resultDiv.innerHTML = `
-        <div>Accessible color for "<strong>${userInput}</strong>": ${hexCode}</div>
+        <div><strong>Accessible color for "${userInput}":</strong> ${hexCode}</div>
       `;
       resultDiv.style.backgroundColor = hexCode;
       // Ensure text is readable; switch to black or white depending on background luminance
@@ -144,7 +171,7 @@
 
     } else {
       resultDiv.textContent = `No accessible color found for "${userInput}". Please try another color.`;
-      resultDiv.style.backgroundColor = '';
+      resultDiv.style.backgroundColor = '#FFFFFF';
       resultDiv.style.color = '#000000';
     }
   });
