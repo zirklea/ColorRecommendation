@@ -98,15 +98,36 @@
     margin-top: 10px;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
   }
 
   .accent-colors div {
+    display: flex;
+    align-items: center;
     padding: 10px;
     color: #FFFFFF;
     border-radius: 4px;
-    flex: 1;
-    text-align: center;
+    flex: 1 1 200px;
+    text-align: left;
     font-weight: bold;
+  }
+
+  .accent-colors div img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  #result .primary-color {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; /* Add space between primary and accent colors */
+  }
+
+  #result .primary-color img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
   }
 
   p {
@@ -118,7 +139,7 @@
 <body>
 
 <header>
-  <img src="headerimage.png" alt="Accessible Color Finder Header">
+  <img src="newheaderimage.png" alt="Accessible Color Finder Header">
   <h1>Accessible Color Finder</h1>
 </header>
 
@@ -147,7 +168,26 @@
     "orange": "#FFB703",
     "purple": "#8C1AFF",
     "dark background": "#2C3E50",
-    "muted light background": "#EDF2F7"
+    "muted light background": "#EDF2F7",
+    "pink": "#FFC0CB"
+  };
+
+  // Corresponding images for each color
+  const imageMapping = {
+    "white": "white.png",
+    "black": "black.png",
+    "dark gray": "dark gray.png",
+    "light gray": "light gray.png",
+    "off-white": "off white.png",
+    "blue": "blue.png",
+    "navy": "navy.png",
+    "green": "green.png",
+    "red": "red.png",
+    "orange": "orange.png",
+    "purple": "purple.png",
+    "dark background": "dark background.png",
+    "muted light background": "muted light background.png",
+    "pink": "pink.png"
   };
 
   // Recommendations for two accessible accent colors
@@ -164,7 +204,8 @@
     "orange": ["navy", "purple"],
     "purple": ["green", "orange"],
     "dark background": ["orange", "blue"],
-    "muted light background": ["navy", "green"]
+    "muted light background": ["navy", "green"],
+    "pink": ["navy", "dark gray"]
   };
 
   document.getElementById('getColor').addEventListener('click', function() {
@@ -173,8 +214,13 @@
 
     if (accessibleColors[userInput]) {
       const hexCode = accessibleColors[userInput];
+      
+      // Primary color display with image
       resultDiv.innerHTML = `
-        <div><strong>Accessible color for "${userInput}":</strong> ${hexCode}</div>
+        <div class="primary-color">
+          <img src="${imageMapping[userInput]}" alt="${userInput}">
+          <div><strong>Accessible color for "${userInput}":</strong> ${hexCode}</div>
+        </div>
       `;
       resultDiv.style.backgroundColor = hexCode;
       // Ensure text is readable; switch to black or white depending on background luminance
@@ -193,9 +239,12 @@
         accents.forEach(accent => {
           const accentColor = accessibleColors[accent];
           const accentDiv = document.createElement('div');
-          accentDiv.textContent = `${accent} (${accentColor})`;
           accentDiv.style.backgroundColor = accentColor;
           accentDiv.style.color = (getLuminance(accentColor) > 0.5) ? '#000000' : '#FFFFFF';
+          accentDiv.innerHTML = `
+            <img src="${imageMapping[accent]}" alt="${accent}">
+            ${accent} (${accentColor})
+          `;
           accentContainer.appendChild(accentDiv);
         });
 
@@ -229,4 +278,3 @@
 
 </body>
 </html>
-
