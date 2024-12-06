@@ -13,6 +13,7 @@
   label {
     display: block;
     margin-bottom: 8px;
+    font-weight: bold;
   }
   input[type="text"] {
     padding: 8px;
@@ -34,12 +35,24 @@
     padding: 10px;
     border-radius: 4px;
   }
+  .accent-colors {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  .accent-colors div {
+    padding: 10px;
+    color: #FFFFFF;
+    border-radius: 4px;
+    flex: 1;
+    text-align: center;
+  }
 </style>
 </head>
 <body>
 
 <h1>Accessible Color Finder</h1>
-<p>Type in a color name and see a recommended accessible hex code:</p>
+<p>Type in a color name and see a recommended accessible hex code and two complimentary accent colors:</p>
 
 <label for="userColor">Enter a color name (e.g. "blue", "green", "red", "white"):</label>
 <input type="text" id="userColor" placeholder="e.g. blue">
@@ -65,16 +78,55 @@
     "muted light background": "#EDF2F7"
   };
 
+  // Recommendations for two accessible accent colors. 
+  // This is a simple, static mapping. Adjust as needed.
+  const accentRecommendations = {
+    "white": ["navy", "green"],
+    "black": ["orange", "blue"],
+    "dark gray": ["blue", "orange"],
+    "light gray": ["purple", "green"],
+    "off-white": ["red", "blue"],
+    "blue": ["green", "orange"],
+    "navy": ["orange", "white"],
+    "green": ["blue", "red"],
+    "red": ["blue", "green"],
+    "orange": ["navy", "purple"],
+    "purple": ["green", "orange"],
+    "dark background": ["orange", "blue"],
+    "muted light background": ["navy", "green"]
+  };
+
   document.getElementById('getColor').addEventListener('click', function() {
     const userInput = document.getElementById('userColor').value.trim().toLowerCase();
     const resultDiv = document.getElementById('result');
 
     if (accessibleColors[userInput]) {
       const hexCode = accessibleColors[userInput];
-      resultDiv.textContent = `Accessible color for "${userInput}": ${hexCode}`;
+      resultDiv.innerHTML = `
+        <div>Accessible color for "<strong>${userInput}</strong>": ${hexCode}</div>
+      `;
       resultDiv.style.backgroundColor = hexCode;
-      // Ensure text is readable; switch to black or white depending on background
+      // Ensure text is readable; switch to black or white depending on background luminance
       resultDiv.style.color = (getLuminance(hexCode) > 0.5) ? '#000000' : '#FFFFFF';
+
+      // Display recommended accent colors
+      if (accentRecommendations[userInput]) {
+        const accents = accentRecommendations[userInput];
+        const accentContainer = document.createElement('div');
+        accentContainer.className = 'accent-colors';
+
+        accents.forEach(accent => {
+          const accentColor = accessibleColors[accent];
+          const accentDiv = document.createElement('div');
+          accentDiv.textContent = `${accent} (${accentColor})`;
+          accentDiv.style.backgroundColor = accentColor;
+          accentDiv.style.color = (getLuminance(accentColor) > 0.5) ? '#000000' : '#FFFFFF';
+          accentContainer.appendChild(accentDiv);
+        });
+
+        resultDiv.appendChild(accentContainer);
+      }
+
     } else {
       resultDiv.textContent = `No accessible color found for "${userInput}". Please try another color.`;
       resultDiv.style.backgroundColor = '';
